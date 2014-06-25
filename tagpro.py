@@ -25,7 +25,7 @@ class Game(object):
 class Tagpro:
     def __init__(self, join_cb=None, server="origin"):
         if server.lower() not in ['pi', 'origin', 'sphere', 'centra', 'chord',
-                                  'diameter', 'tangent']:
+                                  'diameter', 'tangent', 'radius']:
             raise ValueError("Unknown server.")
         if server.lower() != 'tangent':
             x = "http://tagpro-%s.koalabeast.com/groups/create/" % server
@@ -309,7 +309,7 @@ class TagproMember:
 class GroupManager:
     def __init__(self, protocol):
         self.protocol = protocol
-        self.groups = {}
+        self.group = None
 
     @asyncio.coroutine
     def new_group(self, server=None):
@@ -318,15 +318,18 @@ class GroupManager:
         else:
             group = Tagpro(self.join_announcer)
         gid = yield from group.create_group()
-        self.groups[gid] = group
+
+
         debug("Starting group {}", gid)
         asyncio.Task(group.start_group())
         debug("Returning from new_group")
+        if self.group:
+            yield from self.group.leave()
+        self.group = group
         return group.group_link
 
     def join_announcer(self, name):
         c = self.protocol.channel_manager.get(self.protocol.own_user.channel_id)
-
         debug("Here")
         asyncio.Task(
             self.protocol.send_text_message("%s has joined the PUG." % name, c))

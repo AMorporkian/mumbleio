@@ -282,14 +282,17 @@ class Protocol:
             yield from self.send_text_message("Creating new bot.", m['origin'])
             return
         if isinstance(x, str):
-            if m['destination'] == self.channel_manager.get_by_name(self.channel):
+            if m['destination'] == self.get_channel(self.channel):
                 s = m['destination']
             else:
                 s = m['origin']
             yield from self.send_text_message(x, s)
 
     def get_channel(self, name):
-        return self.channel_manager.get_by_name(name)
+        if name.isdigit():
+            return self.channel_manager.get(name)
+        else:
+            return self.channel_manager.get_by_name(name)
 
     @asyncio.coroutine
     def join_channel(self, channel):
@@ -315,8 +318,8 @@ class Protocol:
 
     @asyncio.coroutine
     def user_joined_channel(self, u):
-        if self.group_manager.groups.values():
-            l = list(self.group_manager.groups.values())[0].group_link
+        if self.group_manager.group:
+            l = self.group_manager.group.group_link
             yield from self.send_text_message("Hi, I'm the PUGBot for this "
                                               "channel! The current group "
                                               "link is <a href='{}'>{}</a>"
@@ -328,20 +331,16 @@ class Protocol:
         for n, c in [x.rstrip().split(",") for x in bots.splitlines()]:
             asyncio.Task(Protocol("mumble.koalabeast.com", name=n, channel=c).connect())
 
-
-
-
 if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    p = Protocol("mumble.koalabeast.com", name="TesterBot",
+                 channel="Rectal Rangers 3D", root=True)
     try:
-        loop = asyncio.get_event_loop()
-        p = Protocol("mumble.koalabeast.com", name="TesterBot",
-                     channel="Rectal Rangers 3D", root=True)
-
         #p = Protocol()
         asyncio.Task(p.connect())
         loop.run_forever()
     except (KeyboardInterrupt, SystemExit):
         info("Shutting down.")
     finally:
-        UserManager().save()
+        p.users.save()
 

@@ -19,7 +19,7 @@ class NewBot(Exception):
 
 
 class CommandManager:
-    def __init__(self, protocol):
+    def __init__(self, protocol, um):
         self.prefix = "."
         self.protocol = protocol
         self.commands = {
@@ -38,7 +38,7 @@ class CommandManager:
             "say": self.say,
             "whisper": self.whisper
         }
-        self.um = UserManager()
+        self.um = um
 
     def ret_hash(self, origin, *args):
         return origin.hash
@@ -64,7 +64,10 @@ class CommandManager:
     @Restrict(grouper)
     def create_group(self, source, target, *args):
         """Creates a group and has the bot manage it."""
-        gl = yield from self.protocol.group_manager.new_group()
+        server = 'origin'
+        if args:
+            server = args[0]
+        gl = yield from self.protocol.group_manager.new_group(server)
         return "Here's the group link! %s" % link(gl)
 
     @Restrict(linker)
@@ -96,9 +99,7 @@ class CommandManager:
     def join(self, source, target, *args):
         """Joins a channel."""
         try:
-            channel = self.protocol.get_channel(" ".join(args))
-            yield from self.protocol.join_channel(channel)
-
+                channel = self.protocol.get_channel(" ".join(args))
         except KeyError as e:
             yield from self.protocol.send_text_message(str(e), source)
 

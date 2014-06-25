@@ -89,9 +89,8 @@ class User:
         return self.__str__()
 
 
-class UserManager(metaclass=Singleton):
+class UserManager():
     def __init__(self):
-        debug("Creating user manager")
         self.shelf = shelve.open("users", writeback=True)
         if not 'users' in self.shelf:
             self.shelf['users'] = {}

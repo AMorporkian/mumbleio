@@ -11,6 +11,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/mumbleio$mumbleio.coverage" NAME="mumbleio Coverage Results" MODIFIED="1403730288738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -23,93 +26,106 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="mumbleio.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="mumbleio.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mumbleio.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="373" selection-end="373" vertical-scroll-proportion="-2.8137045" vertical-offset="1728" max-vertical-offset="17496">
+            <state vertical-scroll-proportion="-12.481482" vertical-offset="4643" max-vertical-offset="5280">
+              <caret line="332" column="0" selection-start-line="332" selection-start-column="0" selection-end-line="332" selection-end-column="0" />
               <folding>
-                <element signature="e#37#74#0" expanded="true" />
+                <element signature="e#38#49#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cookies.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/http/cookies.py">
+      <file leaf-file-name="bots" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bots">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="492" column="0" selection-start="17870" selection-end="17870" vertical-scroll-proportion="0.0" vertical-offset="8856" max-vertical-offset="10494">
+            <state vertical-scroll-proportion="-0.5769231" vertical-offset="0" max-vertical-offset="105">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mumble_pb2.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Mumble_pb2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="14355" max-vertical-offset="35100">
+              <caret line="960" column="19" selection-start-line="960" selection-start-column="19" selection-end-line="960" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inspect.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/inspect.py">
+      <file leaf-file-name="channels.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/channels.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="200" column="0" selection-start="7973" selection-end="7973" vertical-scroll-proportion="0.0" vertical-offset="3600" max-vertical-offset="49896">
+            <state vertical-scroll-proportion="0.0" vertical-offset="641" max-vertical-offset="1260">
+              <caret line="79" column="23" selection-start-line="79" selection-start-column="23" selection-end-line="79" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/site-packages/aiohttp/client.py">
+      <file leaf-file-name="users.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/users.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="4" selection-start="414" selection-end="414" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="17514">
+            <state vertical-scroll-proportion="0.4087838" vertical-offset="1078" max-vertical-offset="2385">
+              <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="message.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/email/message.py">
+      <file leaf-file-name="permissions.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/permissions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="462" column="0" selection-start="18251" selection-end="18251" vertical-scroll-proportion="0.0" vertical-offset="8316" max-vertical-offset="20448">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
+              <caret line="30" column="66" selection-start-line="30" selection-start-column="66" selection-end-line="30" selection-end-column="66" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_policybase.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/email/_policybase.py">
+      <file leaf-file-name="tasks.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python3.4/asyncio/tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="296" column="0" selection-start="11712" selection-end="11712" vertical-scroll-proportion="0.0" vertical-offset="5328" max-vertical-offset="6552">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1058" max-vertical-offset="10725">
+              <caret line="105" column="22" selection-start-line="105" selection-start-column="22" selection-end-line="105" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="idna.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/encodings/idna.py">
+      <file leaf-file-name="commands.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/commands.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="167" column="0" selection-start="5092" selection-end="5092" vertical-scroll-proportion="0.0" vertical-offset="3006" max-vertical-offset="5670">
+            <state vertical-scroll-proportion="-15.62963" vertical-offset="43" max-vertical-offset="2775">
+              <caret line="37" column="28" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/site-packages/websockets/client.py">
+      <file leaf-file-name="tagpro.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tagpro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="27" selection-start="2546" selection-end="2551" vertical-scroll-proportion="0.0" vertical-offset="1332" max-vertical-offset="1818">
+            <state vertical-scroll-proportion="-6.4444447" vertical-offset="4446" max-vertical-offset="4995">
+              <caret line="316" column="55" selection-start-line="316" selection-start-column="55" selection-end-line="316" selection-end-column="55" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="protocol.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/site-packages/websockets/protocol.py">
+      <file leaf-file-name="locks.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python3.4/asyncio/locks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="304" column="0" selection-start="10825" selection-end="10825" vertical-scroll-proportion="0.0" vertical-offset="5472" max-vertical-offset="6876">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="parse.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python3.4/urllib/parse.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="349" column="0" selection-start="12377" selection-end="12377" vertical-scroll-proportion="0.0" vertical-offset="6282" max-vertical-offset="17532">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2850" max-vertical-offset="7020">
+              <caret line="194" column="29" selection-start-line="194" selection-start-column="29" selection-end-line="194" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -127,15 +143,22 @@
       <list>
         <option value="$PROJECT_DIR$/Mumble_pb2.py" />
         <option value="$PROJECT_DIR$/protocol.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/permissions.py" />
+        <option value="$PROJECT_DIR$/tagpro.py" />
+        <option value="$PROJECT_DIR$/channels.py" />
+        <option value="$PROJECT_DIR$/commands.py" />
         <option value="$PROJECT_DIR$/mumbleio.py" />
+        <option value="$PROJECT_DIR$/bots" />
+        <option value="$PROJECT_DIR$/users.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="13" />
-    <option name="y" value="6" />
-    <option name="width" value="1873" />
-    <option name="height" value="1019" />
+    <option name="x" value="45" />
+    <option name="y" value="24" />
+    <option name="width" value="1875" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -173,7 +196,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -185,60 +208,13 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="mumbleio" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 3.4.0rc1+ (/usr/local/bin/python3.4) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mumbleio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 3.4.0rc1+ (/usr/local/bin/python3.4) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mumbleio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 3.4.0rc1+ (/usr/local/bin/python3.4) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="websockets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -253,7 +229,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -264,6 +239,8 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="LayoutCode.rearrangeEntries" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -273,6 +250,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/permissions.py" />
     </key>
   </component>
   <component name="RunManager" selected="Python.mumbleio">
@@ -288,12 +268,33 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mumbleio.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PyDebugRunner" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="py.test">
@@ -306,6 +307,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -330,6 +332,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -353,6 +356,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <method />
@@ -367,6 +371,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -379,6 +384,9 @@
       <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -389,6 +397,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -408,6 +417,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mumbleio" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -427,22 +437,8 @@
     </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="false" />
-    <option name="IGNORE_EXTERNALS" value="false" />
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  <component name="SvnConfiguration" myUseAcceleration="nothing">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -453,23 +449,24 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="13" y="6" width="1873" height="1019" extended-state="0" />
-    <editor active="false" />
+    <frame x="45" y="24" width="1875" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32848233" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20470336" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39937434" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1984" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3981289" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4178771" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38877338" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295099" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -477,6 +474,9 @@
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
       <collection />
     </option>
   </component>
@@ -493,290 +493,376 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="30" />
+      <option name="time" value="36" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/src/Ultros3/system/protocols/mumble/protocol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="717" column="8" selection-start="31081" selection-end="31081" vertical-scroll-proportion="0.0" vertical-offset="12906" max-vertical-offset="15390" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mumbleio.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="12" selection-start="1580" selection-end="1580" vertical-scroll-proportion="0.0" vertical-offset="810" max-vertical-offset="6318">
-          <folding>
-            <element signature="e#37#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/events.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="434" column="0" selection-start="13761" selection-end="13761" vertical-scroll-proportion="0.0" vertical-offset="7812" max-vertical-offset="8838" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="0" selection-start="2407" selection-end="2407" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="12384" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mumble_pb2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="570" column="13" selection-start="27124" selection-end="27136" vertical-scroll-proportion="0.0" vertical-offset="10260" max-vertical-offset="40230" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/futures.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="348" column="0" selection-start="12336" selection-end="12336" vertical-scroll-proportion="0.0" vertical-offset="6264" max-vertical-offset="6786" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/ssl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="388" column="28" selection-start="13139" selection-end="13144" vertical-scroll-proportion="0.0" vertical-offset="6984" max-vertical-offset="16434" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/streams.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="44" selection-start="1981" selection-end="1981" vertical-scroll-proportion="0.0" vertical-offset="392" max-vertical-offset="8532" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/base_events.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="419" column="8" selection-start="15093" selection-end="15093" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14634" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protocol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="26" selection-start="125" selection-end="125" vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="180" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mumble.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="14" selection-start="4676" selection-end="4682" vertical-scroll-proportion="0.0" vertical-offset="3465" max-vertical-offset="5382" />
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/src/Ultros3/system/protocols/mumble/channel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="230" max-vertical-offset="846" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="230" max-vertical-offset="846">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/src/Ultros3/system/protocols/mumble/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="594" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="594">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/src/Ultros3/system/protocols/mumble/protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="717" column="8" selection-start="31081" selection-end="31081" vertical-scroll-proportion="0.0" vertical-offset="12906" max-vertical-offset="15390" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="12906" max-vertical-offset="15390">
+          <caret line="717" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/ssl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="388" column="28" selection-start="13139" selection-end="13144" vertical-scroll-proportion="0.0" vertical-offset="6984" max-vertical-offset="16434" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protocol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="26" selection-start="125" selection-end="125" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="6984" max-vertical-offset="16434">
+          <caret line="388" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Mumble.proto">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="14" selection-start="4676" selection-end="4682" vertical-scroll-proportion="0.0" vertical-offset="3465" max-vertical-offset="5382" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3465" max-vertical-offset="5382">
+          <caret line="203" column="14" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/src/Ultros3/system/protocols/mumble/channel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="846" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="846">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.PyCharm30/system/python_stubs/-1199943129/_ssl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="0" selection-start="1928" selection-end="1928" vertical-scroll-proportion="0.0" vertical-offset="1535" max-vertical-offset="67536" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1535" max-vertical-offset="67536">
+          <caret line="96" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/shelve.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="0" selection-start="4251" selection-end="4251" vertical-scroll-proportion="-6.814815" vertical-offset="1778" max-vertical-offset="4356" />
+        <state vertical-scroll-proportion="-6.814815" vertical-offset="1778" max-vertical-offset="4356">
+          <caret line="112" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar:///usr/local/lib/python3.4/site-packages/protobuf-2.4.2_pre-py3.4.egg!/google/protobuf/message.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="221" column="33" selection-start="7878" selection-end="7885" vertical-scroll-proportion="0.6666667" vertical-offset="3996" max-vertical-offset="4950" />
+        <state vertical-scroll-proportion="0.6666667" vertical-offset="3996" max-vertical-offset="4950">
+          <caret line="221" column="33" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/logbook/_fallback.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="898" selection-end="898" vertical-scroll-proportion="0.0" vertical-offset="347" max-vertical-offset="2898" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mumble_pb2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="577" column="31" selection-start="27327" selection-end="27327" vertical-scroll-proportion="0.0" vertical-offset="10188" max-vertical-offset="40176" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="347" max-vertical-offset="2898">
+          <caret line="30" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/traceback.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0" vertical-offset="69" max-vertical-offset="5706" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="69" max-vertical-offset="5706">
+          <caret line="17" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/aiohttp/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="10" selection-start="103" selection-end="103" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+          <caret line="3" column="10" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/aiohttp/protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="12" selection-start="416" selection-end="416" vertical-scroll-proportion="27.481482" vertical-offset="1030" max-vertical-offset="14760" />
+        <state vertical-scroll-proportion="27.481482" vertical-offset="1030" max-vertical-offset="14760">
+          <caret line="16" column="12" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.PyCharm30/system/python_stubs/-1199943129/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="595" column="4" selection-start="22624" selection-end="22624" vertical-scroll-proportion="0.0" vertical-offset="10485" max-vertical-offset="98892">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="10485" max-vertical-offset="98892">
+          <caret line="595" column="4" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/src/Ultros3/system/protocols/mumble/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="616" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="616">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/src/Ultros3/system/protocols/mumble/protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="770" column="22" selection-start="32940" selection-end="32940" vertical-scroll-proportion="-10.333333" vertical-offset="13257" max-vertical-offset="15066" />
+        <state vertical-scroll-proportion="-10.333333" vertical-offset="13257" max-vertical-offset="15066">
+          <caret line="770" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/logbook/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="665" column="0" selection-start="23084" selection-end="23084" vertical-scroll-proportion="0.0" vertical-offset="11774" max-vertical-offset="17514" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="11774" max-vertical-offset="17514">
+          <caret line="665" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="1164" selection-end="1164" vertical-scroll-proportion="0.0" vertical-offset="207" max-vertical-offset="756" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="207" max-vertical-offset="756">
+          <caret line="36" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/_weakrefset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="0" selection-start="1108" selection-end="1108" vertical-scroll-proportion="0.0" vertical-offset="537" max-vertical-offset="3636" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/streams.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="344" column="33" selection-start="11643" selection-end="11643" vertical-scroll-proportion="3.7663934" vertical-offset="3435" max-vertical-offset="8532" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="537" max-vertical-offset="3636">
+          <caret line="40" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/websocket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="22" selection-start="1654" selection-end="1660" vertical-scroll-proportion="-8.703704" vertical-offset="953" max-vertical-offset="16110" />
+        <state vertical-scroll-proportion="-8.703704" vertical-offset="953" max-vertical-offset="16110">
+          <caret line="66" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/asyncio/selector_events.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="459" column="0" selection-start="15696" selection-end="15696" vertical-scroll-proportion="0.25" vertical-offset="8043" max-vertical-offset="15174" />
+        <state vertical-scroll-proportion="0.25" vertical-offset="8043" max-vertical-offset="15174">
+          <caret line="459" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/websockets/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="20" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
+          <caret line="12" column="20" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/websockets/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="27" selection-start="2546" selection-end="2551" vertical-scroll-proportion="0.0" vertical-offset="1332" max-vertical-offset="1818">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/site-packages/aiohttp/session.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="476" selection-end="476" vertical-scroll-proportion="0.5163934" vertical-offset="0" max-vertical-offset="1980" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/urllib/parse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="349" column="0" selection-start="12377" selection-end="12377" vertical-scroll-proportion="0.0" vertical-offset="6063" max-vertical-offset="17496">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1332" max-vertical-offset="1818">
+          <caret line="74" column="27" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/encodings/idna.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="0" selection-start="5092" selection-end="5092" vertical-scroll-proportion="0.0" vertical-offset="2805" max-vertical-offset="5652">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2805" max-vertical-offset="5652">
+          <caret line="167" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/http/cookies.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="492" column="0" selection-start="17870" selection-end="17870" vertical-scroll-proportion="0.0" vertical-offset="8655" max-vertical-offset="10476">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="8655" max-vertical-offset="10476">
+          <caret line="492" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/email/_policybase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="296" column="0" selection-start="11712" selection-end="11712" vertical-scroll-proportion="0.0" vertical-offset="5091" max-vertical-offset="6498">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="5091" max-vertical-offset="6498">
+          <caret line="296" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/email/message.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="462" column="0" selection-start="18251" selection-end="18251" vertical-scroll-proportion="0.0" vertical-offset="8097" max-vertical-offset="20412">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/futures.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="0" selection-start="5461" selection-end="5461" vertical-scroll-proportion="0.33333334" vertical-offset="2427" max-vertical-offset="6696" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="0" selection-start="3032" selection-end="3032" vertical-scroll-proportion="0.33333334" vertical-offset="1491" max-vertical-offset="12186" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/base_events.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="277" column="0" selection-start="9011" selection-end="9011" vertical-scroll-proportion="0.33333334" vertical-offset="4569" max-vertical-offset="14400" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/inspect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="200" column="0" selection-start="7973" selection-end="7973" vertical-scroll-proportion="0.0" vertical-offset="3147" max-vertical-offset="49644">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/asyncio/events.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="23" selection-start="813" selection-end="813" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8802" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.4/site-packages/aiohttp/client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="4" selection-start="414" selection-end="414" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="17514">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="8097" max-vertical-offset="20412">
+          <caret line="462" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python3.4/site-packages/websockets/protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="304" column="0" selection-start="10825" selection-end="10825" vertical-scroll-proportion="0.0" vertical-offset="5472" max-vertical-offset="6876">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5472" max-vertical-offset="6876">
+          <caret line="304" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/urllib/parse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6063" max-vertical-offset="17496">
+          <caret line="349" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="872">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/inspect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3162" max-vertical-offset="49644">
+          <caret line="199" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/asyncio/events.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="246" max-vertical-offset="8802">
+          <caret line="25" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/asyncio/base_events.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.2280703" vertical-offset="13023" max-vertical-offset="14400">
+          <caret line="800" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/pathlib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="13133" max-vertical-offset="19215">
+          <caret line="914" column="19" selection-start-line="914" selection-start-column="19" selection-end-line="914" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/site-packages/aiohttp/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1043" max-vertical-offset="13485">
+          <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.080213904" vertical-offset="0" max-vertical-offset="561">
+          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/users.db">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.4615386" vertical-offset="11145" max-vertical-offset="25275">
+          <caret line="749" column="5" selection-start-line="749" selection-start-column="5" selection-end-line="749" selection-end-column="5" />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/site-packages/logbook/handlers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="18188" max-vertical-offset="24495">
+          <caret line="1308" column="8" selection-start-line="1308" selection-start-column="8" selection-end-line="1308" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/asyncio/streams.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4599" max-vertical-offset="7185">
+          <caret line="338" column="30" selection-start-line="338" selection-start-column="30" selection-end-line="338" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/asyncio/futures.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4943" max-vertical-offset="5580">
+          <caret line="347" column="0" selection-start-line="347" selection-start-column="0" selection-end-line="347" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/asyncio/locks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2603" max-vertical-offset="7020">
+          <caret line="194" column="29" selection-start-line="194" selection-start-column="29" selection-end-line="194" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mumble_pb2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="14047" max-vertical-offset="35100">
+          <caret line="960" column="19" selection-start-line="960" selection-start-column="19" selection-end-line="960" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.4/asyncio/tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1058" max-vertical-offset="10725">
+          <caret line="105" column="22" selection-start-line="105" selection-start-column="22" selection-end-line="105" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/permissions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
+          <caret line="30" column="66" selection-start-line="30" selection-start-column="66" selection-end-line="30" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tagpro.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.4444447" vertical-offset="4446" max-vertical-offset="4995">
+          <caret line="316" column="55" selection-start-line="316" selection-start-column="55" selection-end-line="316" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/channels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="641" max-vertical-offset="1260">
+          <caret line="79" column="23" selection-start-line="79" selection-start-column="23" selection-end-line="79" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mumbleio.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="373" selection-end="373" vertical-scroll-proportion="-2.8137045" vertical-offset="1728" max-vertical-offset="17496">
+        <state vertical-scroll-proportion="-12.481482" vertical-offset="4643" max-vertical-offset="5280">
+          <caret line="332" column="0" selection-start-line="332" selection-start-column="0" selection-end-line="332" selection-end-column="0" />
           <folding>
-            <element signature="e#37#74#0" expanded="true" />
+            <element signature="e#38#49#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commands.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.62963" vertical-offset="43" max-vertical-offset="2775">
+          <caret line="37" column="28" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bots">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5769231" vertical-offset="0" max-vertical-offset="105">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/users.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4087838" vertical-offset="1078" max-vertical-offset="2385">
+          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

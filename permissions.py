@@ -1,6 +1,6 @@
 import asyncio
 
-from logbook import debug
+from logbook import debug, warning, exception
 
 
 __author__ = 'ankhmorporkian'
@@ -27,10 +27,12 @@ class Restrict:
         @asyncio.coroutine
         def wrapped_f(s, source, *args, **kwargs):
             if self.perm.name in source.permissions:
-                debug("Allowing")
-                return (yield from f(s, source, *args, **kwargs))
+                try:
+                    return (yield from f(s, source, *args, **kwargs))
+                except (IndexError, KeyError, ValueError) as e:
+                    exception("Unhandled exception in permission wrapper. "
+                              "Silently dropping.")
             else:
-                debug("Not allowed!")
                 raise PermissionError(self.perm)
         wrapped_f.__doc__ = f.__doc__
         return wrapped_f

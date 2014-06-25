@@ -66,7 +66,7 @@ class ChannelManager:
 
 class Channel:
     def __init__(self, id, parent, name, links, description, links_add,
-                 links_remove, temporary, position, description_hash):
+                 links_remove, temporary, position, description_hash, um):
         self.id = id
         self.name = name
         self.position = position
@@ -77,5 +77,5 @@ class Channel:
         self.links_remove = links_remove
         self.temporary = temporary
         self.description_hash = description_hash
-        self.users = UserManager()
+        self.users = um
         self.children = set()
