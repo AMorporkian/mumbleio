@@ -1,6 +1,6 @@
 from logbook import debug, info, warning
 
-from users import UserManager
+from db import Channel, Session
 
 
 __author__ = 'ankhmorporkian'
@@ -8,38 +8,42 @@ __author__ = 'ankhmorporkian'
 
 class ChannelManager:
     def __init__(self):
+        self.session = Session()
         debug("Creating channel manager.")
-        self.channels = {}
 
     def add_channel(self, id, parent=None, name=None, links=None,
                     description=None, links_add=None, links_remove=None,
                     temporary=None, position=None, description_hash=None):
-        debug("Creating channel {0}", id)
-        if id in self.channels:
+        c = self.session.query(Channel).get(id)
+        if c:
+            debug("Updating channel {} ({})".format(c.name, id))
             self.update_channel(id, parent, name, links, description, links_add,
                                 links_remove, temporary, position,
                                 description_hash)
-        channel = Channel(id, parent, name, links, description, links_add,
-                          links_remove, temporary, position, description_hash)
+        else:
+            c = Channel(id=id,
+                        parent_id=parent, name=name, links="", description=description,
+                        links_add="",links_remove="",
+                        temporary=temporary, position=position,
+                        description_hash=description_hash)
+            self.session.add(c)
+
         if parent is not None and parent != 0:
-            if parent not in self.channels:
+            p = self.session.query(Channel).get(parent)
+            if p is None:
                 raise KeyError("Got a child channel without a root channel (?)")
-            self.channels[parent].children.add(channel)
-        self.channels[id] = channel
 
     def del_channel(self, id):
         try:
-            del self.channels[id]
+            c = self.session.query(Channel).get(id)
+            self.session.delete(c)
             info("Deleted channel with ID {0}", id)
         except KeyError:
-            warning("Server removed channel with ID {0}, "
+            warning("Server removed channel with ID {}, "
                     "but we haven't seen it before!", id)
 
     def get_by_name(self, name):
-        for id, channel in self.channels.items():
-            if channel.name.lower() == name.lower():
-                return channel
-        raise KeyError("Couldn't find a channel with the name %s" % name)
+        return self.session.query(Channel).filter_by(name=name).first()
 
     def get(self, id):
         if not isinstance(id, int):
@@ -47,7 +51,7 @@ class ChannelManager:
                 id = self.get_by_name(id).id
             else:
                 id = int(id)
-        return self.channels[id]
+        return self.session.query(Channel).get(id)
 
     def update_channel(self,
                        *args):  # id, parent, name, links, description, links_add,
@@ -62,20 +66,3 @@ class ChannelManager:
                 'links_remove', 'temporary', 'position', 'description_hash'):
             args.append(getattr(message, m, None))
         self.add_channel(*args)
-
-
-class Channel:
-    def __init__(self, id, parent, name, links, description, links_add,
-                 links_remove, temporary, position, description_hash, um):
-        self.id = id
-        self.name = name
-        self.position = position
-        self.parent = parent
-        self.links = links
-        self.description = description
-        self.links_add = links_add
-        self.links_remove = links_remove
-        self.temporary = temporary
-        self.description_hash = description_hash
-        self.users = um
-        self.children = set()

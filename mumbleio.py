@@ -1,20 +1,19 @@
 # !/usr/bin/env python
 # coding=utf-8
-import json
 import platform
 import struct
 import ssl
 import asyncio
 
 import logbook
-from logbook import critical, warning, info, debug
-from pathlib import Path
+from logbook import critical, warning, info
 
 import Mumble_pb2
-from channels import ChannelManager, Channel
+from channels import ChannelManager
 from commands import CommandManager, NewBot
+from db import User, Channel, Session
 from tagpro import GroupManager
-from users import User, UserManager
+from users import UserManager
 
 
 logger = logbook.StderrHandler('WARNING', bubble=True)
@@ -68,6 +67,7 @@ class Protocol:
     def num_channels(self):
         return len(self.channels)
 
+    connection_lock = asyncio.Lock()
     def __init__(self, host="mumble.koalabeast.com", name="ChangeThis",
                  channel=None, user_manager=None, root=False):
         self.reader = None
@@ -79,9 +79,8 @@ class Protocol:
         self.own_user = None
         self.channel = channel
         self.channel_manager = ChannelManager()
-        self.command_manager = CommandManager(self)
+        self.command_manager = CommandManager(self, self.users)
         self.group_manager = GroupManager(self)
-        self.connection_lock = asyncio.Lock()
         self.connected = False
         asyncio.Task(self.connection_lock.acquire())
         self.bots.append(self)
@@ -107,8 +106,6 @@ class Protocol:
                 message = Protocol.ID_MESSAGE[message_type]()
                 message.ParseFromString(raw_message)
                 yield from self.mumble_received(message)
-        except (KeyboardInterrupt, SystemExit):
-            self.users.save()
         finally:
             self.pinger.cancel()
             self.writer.close()
@@ -120,65 +117,50 @@ class Protocol:
 
     @asyncio.coroutine
     def mumble_received(self, message):
-        #print(message)
         if isinstance(message, Mumble_pb2.Version):
-            debug("Version received")
+            pass
 
         elif isinstance(message, Mumble_pb2.Reject):
             critical("Rejected")
             self.die()
-            self.pinging = False
+
 
         elif isinstance(message, Mumble_pb2.CodecVersion):
-            debug("Received codecversion")
+            pass
         elif isinstance(message, Mumble_pb2.CryptSetup):
-            debug("Received crypto setup")
+            pass
         elif isinstance(message, Mumble_pb2.ChannelState):
-            info("Received channel state")
             self.channel_manager.add_from_message(message)
-
         elif isinstance(message, Mumble_pb2.PermissionQuery):
-            debug("Received permissions query", message)
+            pass
         elif isinstance(message, Mumble_pb2.UserState):
-            info("Received userstate")
-            info(self.users)
             if self.own_user is None:
-                info("Creating own user")
                 self.own_user = self.users.from_message(message)
                 u = self.own_user
-            elif message.session == self.own_user.session:
-                info("Updating own user")
+                print(u)
+            elif message.session and message.session == self.own_user.session:
                 self.own_user.update_from_message(message)
                 u = self.own_user
-            elif self.users.check_by_x("session", message.session):
-                info("Updating other user")
-                u = self.users.by_x("session", message.session)
-                u.update_from_message(message)
             else:
-                info("Creating new user.")
-                u = self.users.from_message(message)
-            if u is not self.own_user:
+                try:
+                    u = self.users.from_message(message)
+                except NameError:
+                    u = None
+            if u and u is not self.own_user:
                 if u.channel_id == self.own_user.channel_id:
                     yield from self.user_joined_channel(u)
-
         elif isinstance(message, Mumble_pb2.ServerSync):
-            info("Received welcome message")
+            pass
         elif isinstance(message, Mumble_pb2.ServerConfig):
-            info("Received server config")
             self.connection_lock.release()  # We're as connected as possible.
         elif isinstance(message, Mumble_pb2.Ping):
-            #debug("Received ping")
             pass
         elif isinstance(message, Mumble_pb2.UserRemove):
-            info("Received UserRemove")
+            pass
         elif isinstance(message, Mumble_pb2.TextMessage):
-            info("Received text message")
-            info(message)
             yield from self.handle_text_message(message)
         elif isinstance(message, Mumble_pb2.ChannelRemove):
-            info("Received channel remove")
             self.channel_manager.del_channel(message.channel_id)
-        #elif isinstance(message, Mumble_pb2.)
         else:
             warning("Received unknown message type")
             info(message)
@@ -209,15 +191,10 @@ class Protocol:
             yield from self.send_protobuf(Mumble_pb2.Ping())
 
     @asyncio.coroutine
-    def ping_handler(self):
-        if not self.pinging:
-            return
-
-    @asyncio.coroutine
     def connect(self):
         info("Connecting...")
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-        #sslcontext.options |= ssl.CERT_NONE
+        # sslcontext.options |= ssl.CERT_NONE
         self.reader, self.writer = (
             yield from asyncio.open_connection(self.host, 64738,
                                                server_hostname='',
@@ -254,7 +231,7 @@ class Protocol:
     @asyncio.coroutine
     def handle_text_message(self, message):
         try:
-            actor = self.users.by_actor(message.actor)
+            actor = self.users.by_session(message.actor)
             info("Message from {0}: {1}", actor,
                  message.message)
             m = {}
@@ -288,7 +265,7 @@ class Protocol:
                 s = m['origin']
             yield from self.send_text_message(x, s)
 
-    def get_channel(self, name):
+    def get_channel(self, name) -> Channel:
         if name.isdigit():
             return self.channel_manager.get(name)
         else:
@@ -313,6 +290,7 @@ class Protocol:
         return True
 
     def create_bot(self, name, channel):
+        print("Creating bot.", name, channel)
         p = Protocol('mumble.koalabeast.com', name=name, channel=channel)
         asyncio.Task(p.connect())
 
@@ -323,24 +301,26 @@ class Protocol:
             yield from self.send_text_message("Hi, I'm the PUGBot for this "
                                               "channel! The current group "
                                               "link is <a href='{}'>{}</a>"
-                                              "".format(l,l), u)
+                                              "".format(l, l), u)
 
     def start_bots(self):
         with open("bots") as f:
             bots = f.read()
         for n, c in [x.rstrip().split(",") for x in bots.splitlines()]:
-            asyncio.Task(Protocol("mumble.koalabeast.com", name=n, channel=c).connect())
+            asyncio.Task(
+                Protocol("mumble.koalabeast.com", name=n, channel=c).connect())
+
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     p = Protocol("mumble.koalabeast.com", name="TesterBot",
                  channel="Rectal Rangers 3D", root=True)
     try:
-        #p = Protocol()
+        # p = Protocol()
         asyncio.Task(p.connect())
         loop.run_forever()
     except (KeyboardInterrupt, SystemExit):
         info("Shutting down.")
     finally:
-        p.users.save()
-
+        Session().query(User).delete()
+        Session().commit()

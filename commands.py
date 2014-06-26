@@ -1,8 +1,10 @@
 import asyncio
 
 from logbook import critical, debug
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+from db import User
 
-from permissions import Restrict, grouper, linker, admin, all_perms, owner, \
+from permissions import Restrict, grouper, admin, all_perms, owner, \
     Permission
 from users import UserManager
 
@@ -25,8 +27,6 @@ class CommandManager:
         self.commands = {
             "create_group": self.create_group,
             #"set_link": self.set_link,
-            "add_linker": self.add_linker,
-            "del_linker": self.del_linker,
             "join": self.join,
             "help": self.help,
             "hash": self.ret_hash,
@@ -36,7 +36,9 @@ class CommandManager:
             "del_bot": self.del_bot,
             "list_bots": self.list_bots,
             "say": self.say,
-            "whisper": self.whisper
+            "whisper": self.whisper,
+            "debug_permissions": self.debug_permissions,
+            "whois": self.whois
         }
         self.um = um
 
@@ -70,38 +72,16 @@ class CommandManager:
         gl = yield from self.protocol.group_manager.new_group(server)
         return "Here's the group link! %s" % link(gl)
 
-    @Restrict(linker)
-    def set_link(self, source, target, args: "link"):
-        """Sets the link. The bot will not manage it."""
-        self.protocol.link = args
-        return "Updated the link to {}".format(args)
-
-    @Restrict(admin)
-    def add_linker(self, source, target, *args):
-        """Adds a linker."""
-        try:
-            name = " ".join(args)
-            user_obj = self.protocol.users.by_name(name)
-            user_obj.add_permission(linker)
-            yield from self.protocol.send_text_message(
-                "You've been added as an approved linker! Use this power wisely.",
-                user_obj)
-            return "Added {} to approved linkers list.".format(name)
-        except KeyError:
-            return "Couldn't find a user with that name!"
-
-    @Restrict(admin)
-    def del_linker(self, source, target, *args):
-        """Deletes a linker."""
-        pass
-
     @Restrict(admin)
     def join(self, source, target, *args):
         """Joins a channel."""
         try:
-                channel = self.protocol.get_channel(" ".join(args))
-        except KeyError as e:
-            yield from self.protocol.send_text_message(str(e), source)
+            channel = self.protocol.get_channel(" ".join(args))
+            yield from self.protocol.join_channel(channel.id)
+        except NoResultFound:
+            yield from self.protocol.send_text_message("Couldn't find that channel.", source)
+        except MultipleResultsFound:
+            yield from self.protocol.send_text_message("There are multiple channels with that name.", source)
 
     @Restrict(admin)
     def add_bot(self, source, target, *args):
@@ -139,6 +119,8 @@ class CommandManager:
         perm = args[-1].lower()
         try:
             p = self.get_perm(perm)
+            print(p)
+            print(p.subpermissions)
             u = self.um.by_name(name)
             if u.add_permission(p):
                 yield from self.protocol.send_text_message("You've been given {} permissions by {}. Use them wisely.".format(p.name, source.name), u)
@@ -184,3 +166,14 @@ class CommandManager:
     def whisper(self, source, target, *args):
         yield from self.protocol.send_text_message(" ".join(args[1:]),
                                                    self.protocol.users.by_name(args[0]))
+
+    @asyncio.coroutine
+    def debug_permissions(self, source, target, *args):
+        return "Your permissions: {}".format(self.protocol.users.by_name("AnkhMorpork").permissions)
+
+    @Restrict(owner)
+    def whois(self, source, target, name):
+        p = self.um.by_name(name)
+        if not p:
+            return "User not found."
+        return "<br />"+"<br />".join(["{}: {}".format(k,v) for k, v in [(k, getattr(p, k)) for k in User.attrs.keys()]])
