@@ -5,7 +5,7 @@ import uuid
 
 import aiohttp
 import datetime
-from logbook import critical, debug
+from logbook import critical, debug, info
 import websockets
 
 
@@ -23,7 +23,7 @@ class Game(object):
 
 
 class Tagpro:
-    def __init__(self, join_cb=None, server="origin"):
+    def __init__(self, join_cb=None, leave_cb=None, server="origin"):
         if server.lower() not in ['pi', 'origin', 'sphere', 'centra', 'chord',
                                   'diameter', 'tangent', 'radius']:
             raise ValueError("Unknown server.")
@@ -45,7 +45,10 @@ class Tagpro:
         self.member_ids = set()
         if join_cb is None:
             join_cb = lambda *args, **kwargs: None
+        if leave_cb is None:
+            leave_cb = lambda *args, **kwargs: None
         self.join_cb = join_cb
+        self.leave_cb = leave_cb
         self.members = {}
         self.game_settings = {""}
         self.socket_link = ""
@@ -85,7 +88,6 @@ class Tagpro:
                                        headers=self.headers,
                                        allow_redirects=False)  # cookies={"tagpro": self.cookie}, headers=headers)
         x.close()
-        print("Here yo")
 
 
     @asyncio.coroutine
@@ -119,7 +121,7 @@ class Tagpro:
 
     @asyncio.coroutine
     def create_group(self):
-        debug("Creating group")
+        info("Creating group")
         if self.cookie is None:
             yield from self.get_cookie()
 
@@ -173,20 +175,19 @@ class Tagpro:
             if self.token is None:
                 yield from self.get_token()
 
-            print(self.socket)
             websocket = yield from websockets.connect(
                 "ws://tagpro-%s.koalabeast.com:443/socket.io/1/websocket/%s" % (
                     self.server, self.token))  # , cookies=self.cookie)
 
             self.socket = websocket
-            print((yield from websocket.recv()))  # Connection
+            yield from websocket.recv()  # Connection
             yield from self.send(
                 "1::%s" % self.group_space)  # Get the namespace
             self._thumper = asyncio.Task(self.thumper())
             while True:
                 data = (yield from websocket.recv())
                 if data is None:
-                    debug("It's dead!")
+                    info("Group died.")
                     # yield from self.leave()
                     yield from self.socket.close()
                     yield from self.socket.close_connection()
@@ -194,19 +195,14 @@ class Tagpro:
                     return
 
                 if data[0] == "0":
-                    debug("Got a disconnect, reconnecting.")
-                    debug("Not reconnecting.")
                     return
 
                 if data[0] == '5':
                     try:
                         yield from self.event_handler(data)
                     except InterruptedError:
-                        debug("Exiting read loop.")
                         break
                     except ConnectionError as e:
-                        print(e)
-                        print("Connection error")
                         break
                 if not self.name_changed:
                     yield from self.change_name()
@@ -226,17 +222,13 @@ class Tagpro:
     def event_handler(self, event):
         match = re.match(websocket_parser, event)
         data = json.loads(match.group("data"))
-        debug(data)
         port_received = asyncio.Event()
         if data['name'] == "member":
             id = data['args'][0]['id']
-            print(id)
-            print(self.member_ids)
             if id not in self.member_ids:
                 self.member_ids.add(id)
                 x = TagproMember(**data['args'][0])
                 self.members[x.name] = x
-                debug("Added name {}", x.name)
                 if self.us is not None:
                     self.join_cb(x.name)
             else:
@@ -249,34 +241,25 @@ class Tagpro:
         elif data['name'] == 'you':
             id = data['args'][0]
             self.us = [x for x in self.members.values() if x.id == id][0]
-            debug("Got us.")
-        elif data['name'] == 'removed':
-            try:
-                self.members.pop(data['args'][0]['id'])
-            except LookupError:
-                debug("Tried to remove a non-existent ID.")
-                # self.part_cb(data['args'][0]['name'])
         elif data['name'] == 'port':
             self.port = data['args'][0]
             port_received.set()
-            print("Received port.")
         elif data['name'] == 'play':
             asyncio.Task(self.spectate(port_received))
+        elif data['name'] == 'removed':
+            self.remove_player(data['args'][0])
     @asyncio.coroutine
     def send(self, data):
-        debug("Sending {}", data)
         yield from self.socket.send(data)
 
     @asyncio.coroutine
     def thumper(self):
         """Sends a periodic heartbeat."""
-        print(self.socket)
         while self.socket is not None:
             yield from self.send("2::")
             yield from self.send(
                 '5::%s:{"name":"touch","args":["page"]}' % self.group_space)
             yield from asyncio.sleep(5)
-            debug("Thump")
 
     @property
     def group_link(self):
@@ -287,7 +270,13 @@ class Tagpro:
         yield from port_received.wait()
         s = Game(self.port, self)
         score = yield from s.run()
-        print(score)
+
+    def remove_player(self, player):
+        print("Removing")
+        if player['name'] in self.members:
+            print(player['name'])
+            del(self.members[player['name']])
+            self.leave_cb(player['name'])
 
 
 class TagproMember:
@@ -314,15 +303,14 @@ class GroupManager:
     @asyncio.coroutine
     def new_group(self, server=None):
         if server is not None:
-            group = Tagpro(self.join_announcer, server)
+            group = Tagpro(self.join_announcer, self.leave_announcer, server)
         else:
-            group = Tagpro(self.join_announcer)
+            group = Tagpro(self.join_announcer, self.leave_announcer)
         gid = yield from group.create_group()
 
 
         debug("Starting group {}", gid)
         asyncio.Task(group.start_group())
-        debug("Returning from new_group")
         if self.group:
             yield from self.group.leave()
         self.group = group
@@ -330,6 +318,10 @@ class GroupManager:
 
     def join_announcer(self, name):
         c = self.protocol.channel_manager.get(self.protocol.own_user.channel_id)
-        debug("Here")
         asyncio.Task(
             self.protocol.send_text_message("%s has joined the PUG." % name, c))
+
+    def leave_announcer(self, name):
+        c = self.protocol.channel_manager.get(self.protocol.own_user.channel_id)
+        asyncio.Task(
+            self.protocol.send_text_message("%s has left the PUG." % name, c))

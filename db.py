@@ -1,4 +1,4 @@
-from logbook import debug
+from logbook import debug, info
 from sqlalchemy.orm import relationship, sessionmaker, scoped_session
 import Mumble_pb2
 from permissions import Permission
@@ -60,6 +60,7 @@ class User(Base):
     texture_hash = Column(String)
     priority_speaker = Column(String)
     recording = Column(Boolean)
+    channel = relationship("Channel", uselist=False)
     _permissions = relationship("Permissions", uselist=False)
 
     @property
@@ -79,6 +80,21 @@ class User(Base):
     def update_from_message(self, message: Mumble_pb2.message):
         for k, v in message.ListFields():
             if getattr(self, k.name) != v:
+                #print(k.name)
+                if k.name == "self_mute":
+                    if v:
+                        info("{} is now muted.", self.name)
+                    else:
+                        info("{} is no longer muted.", self.name)
+                elif k.name == "self_deaf":
+                    if v:
+                        info("{} is now deafened.", self.name)
+                    else:
+                        info("{} is no longer deafened.", self.name)
+                elif k.name == "channel_id":
+                    info("{} moved from {} to {}.", self.name, self.channel.name, Session().query(Channel).get(v).name)
+                else:
+                    print(k.name)
                 setattr(self, k.name, v)
 
     @classmethod

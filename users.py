@@ -1,6 +1,3 @@
-import shelve
-
-from logbook import debug, warning
 from sqlalchemy import func
 
 from db import User, Session, Permissions

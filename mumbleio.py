@@ -152,7 +152,8 @@ class Protocol:
         elif isinstance(message, Mumble_pb2.ServerSync):
             pass
         elif isinstance(message, Mumble_pb2.ServerConfig):
-            self.connection_lock.release()  # We're as connected as possible.
+            if self.connection_lock.locked():
+                self.connection_lock.release()  # We're as connected as possible.
         elif isinstance(message, Mumble_pb2.Ping):
             pass
         elif isinstance(message, Mumble_pb2.UserRemove):
@@ -273,8 +274,6 @@ class Protocol:
 
     @asyncio.coroutine
     def join_channel(self, channel):
-        if self.connection_lock is not None:
-            yield from self.connection_lock
         if isinstance(channel, str):
             channel = self.get_channel(channel)
         if channel is None:
@@ -285,8 +284,6 @@ class Protocol:
         msg.channel_id = channel
 
         yield from self.send_protobuf(msg)
-        if self.connection_lock is not None:
-            self.connection_lock = None
         return True
 
     def create_bot(self, name, channel):

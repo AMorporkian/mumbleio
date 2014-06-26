@@ -1,7 +1,6 @@
 import asyncio
-import itertools
 
-from logbook import debug, warning, exception
+from logbook import debug, exception
 
 
 __author__ = 'ankhmorporkian'
@@ -23,15 +22,9 @@ class Permission:
 
         self.subpermissions = set()
         if subpermissions:
-            print(subpermissions)
             self.subpermissions = set()
             for x in subpermissions:
                 self.subpermissions |= get_permissions(x)
-
-
-
-
-
 
 
 class Restrict:
@@ -49,7 +42,6 @@ class Restrict:
 
         @asyncio.coroutine
         def wrapped_f(s, source, *args, **kwargs):
-            print(self.perm.name, source.permissions, self.perm.name in source.permissions)
             if self.perm.name in source.permissions:
                 try:
                     return (yield from f(s, source, *args, **kwargs))
@@ -58,6 +50,7 @@ class Restrict:
                               "Silently dropping.")
             else:
                 raise PermissionError(self.perm)
+
         wrapped_f.__doc__ = f.__doc__
         return wrapped_f
 
@@ -66,8 +59,5 @@ everyone = Permission("everyone")
 grouper = Permission("grouper", subpermissions=(everyone,))
 admin = Permission("admin", subpermissions=(grouper,))
 owner = Permission("owner", subpermissions=(admin,))
-
-
-
 
 all_perms = {x.name: x for x in [owner, admin, grouper]}
