@@ -9,7 +9,6 @@ __author__ = 'ankhmorporkian'
 class ChannelManager:
     def __init__(self):
         self.session = Session()
-        debug("Creating channel manager.")
 
     def add_channel(self, id, parent=None, name=None, links=None,
                     description=None, links_add=None, links_remove=None,

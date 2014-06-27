@@ -56,7 +56,6 @@ class Tagpro:
         self.last_gave_up = datetime.datetime.now()
         # self.session.update_cookies({"music": "false", "sound": "false"})
 
-
     @asyncio.coroutine
     def send_text(self, text):
         yield from self.send(
@@ -145,6 +144,8 @@ class Tagpro:
 
     @asyncio.coroutine
     def get_token(self):
+        if self.cookie is None:
+            yield from self.get_cookie()
         req = aiohttp.request('GET',
                               'http://tagpro-%s.koalabeast.com:443/socket.io/1' %
                               self.server,
@@ -275,6 +276,7 @@ class Tagpro:
         print("Removing")
         if player['name'] in self.members:
             print(player['name'])
+            self.member_ids.remove(player['id'])
             del(self.members[player['name']])
             self.leave_cb(player['name'])
 
@@ -310,6 +312,17 @@ class GroupManager:
 
 
         debug("Starting group {}", gid)
+        asyncio.Task(group.start_group())
+        if self.group:
+            yield from self.group.leave()
+        self.group = group
+        print(self.group.group_space)
+        return group.group_link
+
+    @asyncio.coroutine
+    def existing_group(self, server, gs):
+        group = Tagpro(self.join_announcer, self.leave_announcer, server)
+        group.group_space = gs
         asyncio.Task(group.start_group())
         if self.group:
             yield from self.group.leave()

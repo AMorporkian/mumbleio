@@ -21,6 +21,7 @@ logger.push_application()
 
 
 class Protocol:
+    connection_lock = asyncio.Lock()
     bots = []
     VERSION_MAJOR = 1
     VERSION_MINOR = 2
@@ -67,7 +68,7 @@ class Protocol:
     def num_channels(self):
         return len(self.channels)
 
-    connection_lock = asyncio.Lock()
+
     def __init__(self, host="mumble.koalabeast.com", name="ChangeThis",
                  channel=None, user_manager=None, root=False):
         self.reader = None
@@ -82,7 +83,6 @@ class Protocol:
         self.command_manager = CommandManager(self, self.users)
         self.group_manager = GroupManager(self)
         self.connected = False
-        asyncio.Task(self.connection_lock.acquire())
         self.bots.append(self)
         if root:
             self.start_bots()
@@ -194,6 +194,7 @@ class Protocol:
     @asyncio.coroutine
     def connect(self):
         info("Connecting...")
+        yield from self.connection_lock
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         # sslcontext.options |= ssl.CERT_NONE
         self.reader, self.writer = (
@@ -221,7 +222,6 @@ class Protocol:
         asyncio.Task(self.join_channel(self.channel))
         self.connected = True
         yield from self.read_loop()
-
 
     def die(self):
         pass
@@ -310,7 +310,7 @@ class Protocol:
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    p = Protocol("mumble.koalabeast.com", name="TesterBot",
+    p = Protocol("mumble.koalabeast.com", name="RectalBot",
                  channel="Rectal Rangers 3D", root=True)
     try:
         # p = Protocol()

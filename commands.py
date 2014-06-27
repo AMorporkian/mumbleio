@@ -37,8 +37,8 @@ class CommandManager:
             "list_bots": self.list_bots,
             "say": self.say,
             "whisper": self.whisper,
-            "debug_permissions": self.debug_permissions,
-            "whois": self.whois
+            "whois": self.whois,
+            "rejoin": self.rejoin
         }
         self.um = um
 
@@ -69,8 +69,17 @@ class CommandManager:
         server = 'origin'
         if args:
             server = args[0]
+
         gl = yield from self.protocol.group_manager.new_group(server)
+
         return "Here's the group link! %s" % link(gl)
+
+
+    @Restrict(grouper)
+    def rejoin(self, source, target, group_space, server="origin", *args):
+        '''Rejoins a previously created group. Broken.'''
+        gl = yield from self.protocol.group_manager.existing_group(server, group_space)
+        return "Rejoined (or attempted to rejoin) group. {}".format(gl)
 
     @Restrict(admin)
     def join(self, source, target, *args):
@@ -99,6 +108,7 @@ class CommandManager:
 
     @Restrict(admin)
     def del_bot(self, source, target, args):
+        '''Deletes a bot.'''
         for bot in self.protocol.bots:
             if bot.username.lower() == args.lower():
                 bot.connected = False
@@ -110,6 +120,7 @@ class CommandManager:
 
 
     def get_perm(self, perm) -> Permission:
+        '''Returns a raw permission object.'''
         return all_perms[perm]
 
     @Restrict(owner)
@@ -136,6 +147,7 @@ class CommandManager:
 
     @Restrict(owner)
     def del_perm(self, source, target, *args):
+        '''Deletes a permission by name.'''
         name = " ".join(args[:-1])
         perm = args[-1].lower()
         try:
@@ -155,24 +167,28 @@ class CommandManager:
 
     @asyncio.coroutine
     def help(self, source, target, *args):
+        '''Help command.'''
         return "<hr><center><b>Available commands:</b></center><hr>"+"<br />".join("<b>{}{}</b>: {}".format(self.prefix, s, t.__doc__) for s,t in self.commands.items() if t.__doc__ is not None)
 
 
     @Restrict(admin)
     def say(self, source, target, *args):
+        '''Makes the bot say something, probably silly, in its current channel.'''
         yield from self.protocol.send_text_message(" ".join(args), self.protocol.channel_manager.get_by_name(self.protocol.channel))
 
     @Restrict(admin)
     def whisper(self, source, target, *args):
+        '''Makes the bot whisper something, probably silly, to a user.'''
         yield from self.protocol.send_text_message(" ".join(args[1:]),
                                                    self.protocol.users.by_name(args[0]))
 
     @asyncio.coroutine
-    def debug_permissions(self, source, target, *args):
-        return "Your permissions: {}".format(self.protocol.users.by_name("AnkhMorpork").permissions)
+    def list_permissions(self, source, target, *args):
+        return "{}'s permissions: {}".format(args[0], self.protocol.users.by_name(args[0]).permissions)
 
     @Restrict(owner)
     def whois(self, source, target, name):
+        '''Detailed whois information on a user. Useful for finding channel ids.'''
         p = self.um.by_name(name)
         if not p:
             return "User not found."
