@@ -1,5 +1,4 @@
 import asyncio
-
 from logbook import critical, debug
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 from db import User
@@ -134,7 +133,8 @@ class CommandManager:
             print(p.subpermissions)
             u = self.um.by_name(name)
             if u.add_permission(p):
-                yield from self.protocol.send_text_message("You've been given {} permissions by {}. Use them wisely.".format(p.name, source.name), u)
+                yield from self.protocol.send_text_message("You've been given {} permissions by {}." 
+				"Use them wisely.".format(p.name, source.name), u)
                 return "Added permission {} to user {}.".format(p.name, u.name)
             else:
                 return "User {} already had permission {}".format(u.name,

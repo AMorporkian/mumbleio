@@ -40,6 +40,8 @@ class ChannelManager:
         except KeyError:
             warning("Server removed channel with ID {}, "
                     "but we haven't seen it before!", id)
+        except:
+            pass
 
     def get_by_name(self, name):
         return self.session.query(Channel).filter_by(name=name).first()

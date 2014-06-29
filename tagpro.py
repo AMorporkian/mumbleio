@@ -273,12 +273,11 @@ class Tagpro:
         score = yield from s.run()
 
     def remove_player(self, player):
-        print("Removing")
+        print("Removing", player['name'])
         if player['name'] in self.members:
-            print(player['name'])
-            self.member_ids.remove(player['id'])
             del(self.members[player['name']])
             self.leave_cb(player['name'])
+        self.member_ids.discard(player['id'])
 
 
 class TagproMember:

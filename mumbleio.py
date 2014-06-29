@@ -68,9 +68,8 @@ class Protocol:
     def num_channels(self):
         return len(self.channels)
 
-
     def __init__(self, host="mumble.koalabeast.com", name="ChangeThis",
-                 channel=None, user_manager=None, root=False):
+                 channel=None, user_manager=None, root=False, home_server="origin"):
         self.reader = None
         self.writer = None
         self.username = name
@@ -83,6 +82,7 @@ class Protocol:
         self.command_manager = CommandManager(self, self.users)
         self.group_manager = GroupManager(self)
         self.connected = False
+        self.home_server = home_server
         self.bots.append(self)
         if root:
             self.start_bots()
@@ -95,25 +95,33 @@ class Protocol:
 
     def read_loop(self):
         try:
-            while self.connected:
-                header = yield from self.reader.readexactly(6)
-                message_type, length = struct.unpack(Protocol.PREFIX_FORMAT,
-                                                     header)
-                if message_type not in Protocol.MESSAGE_ID.values():
-                    critical("Unknown ID, exiting.")
-                    self.die()
-                raw_message = (yield from self.reader.readexactly(length))
-                message = Protocol.ID_MESSAGE[message_type]()
-                message.ParseFromString(raw_message)
-                yield from self.mumble_received(message)
+            try:
+                while self.connected:
+
+                    header = yield from self.reader.readexactly(6)
+                    message_type, length = struct.unpack(Protocol.PREFIX_FORMAT,
+                                                         header)
+                    if message_type not in Protocol.MESSAGE_ID.values():
+                        critical("Unknown ID, exiting.")
+                        self.die()
+                    raw_message = (yield from self.reader.readexactly(length))
+                    message = Protocol.ID_MESSAGE[message_type]()
+                    message.ParseFromString(raw_message)
+                    yield from self.mumble_received(message)
+            except asyncio.IncompleteReadError:
+                critical("Disconnected. Reconnecting...")
+            except GeneratorExit:
+                self.connected = False
         finally:
             self.pinger.cancel()
             self.writer.close()
-            self.bots.remove(self)
+            if not self.connected:
+                self.bots.remove(self)
             if not self.bots:
                 l = asyncio.get_event_loop()
                 l.stop()
-
+            if self.connected:
+                yield from self.reconnect()
 
     @asyncio.coroutine
     def mumble_received(self, message):
@@ -154,6 +162,8 @@ class Protocol:
         elif isinstance(message, Mumble_pb2.ServerConfig):
             if self.connection_lock.locked():
                 self.connection_lock.release()  # We're as connected as possible.
+            if self.home_server:
+                asyncio.Task(self.group_manager.new_group(server=self.home_server))
         elif isinstance(message, Mumble_pb2.Ping):
             pass
         elif isinstance(message, Mumble_pb2.UserRemove):
@@ -224,7 +234,7 @@ class Protocol:
         yield from self.read_loop()
 
     def die(self):
-        pass
+        self.connected = False
 
     def update_user(self, message):
         pass
@@ -286,7 +296,7 @@ class Protocol:
         yield from self.send_protobuf(msg)
         return True
 
-    def create_bot(self, name, channel):
+    def create_bot(self, name, channel, home_server="origin"):
         print("Creating bot.", name, channel)
         p = Protocol('mumble.koalabeast.com', name=name, channel=channel)
         asyncio.Task(p.connect())
@@ -303,9 +313,14 @@ class Protocol:
     def start_bots(self):
         with open("bots") as f:
             bots = f.read()
-        for n, c in [x.rstrip().split(",") for x in bots.splitlines()]:
+        for n, c, s in [x.rstrip().split(",") for x in bots.splitlines()]:
             asyncio.Task(
-                Protocol("mumble.koalabeast.com", name=n, channel=c).connect())
+                Protocol("mumble.koalabeast.com", name=n, channel=c, home_server=s).connect())
+
+    @asyncio.coroutine
+    def reconnect(self):
+        yield from asyncio.sleep(5)
+        asyncio.Task(self.connect())
 
 
 if __name__ == "__main__":
