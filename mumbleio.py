@@ -280,7 +280,6 @@ if __name__ == "__main__":
                  channel="Recharging Station", root=True,
                  start_group=False)
     try:
-        # p = Protocol()
         with setup.applicationbound():
             asyncio.Task(p.connect())
             loop.run_forever()
