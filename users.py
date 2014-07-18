@@ -1,7 +1,9 @@
-from sqlalchemy import func
+from logbook import Logger
 
+from sqlalchemy import func
 from db import User, Session, Permissions
 from permissions import all_perms, owner
+
 
 owner_hash = '91d57205a2841e07c699ee587f05852ea070f699'
 
@@ -10,6 +12,7 @@ __author__ = 'ankhmorporkian'
 
 class UserManager():
     def __init__(self):
+        self.logger = Logger('mumbleio.UserManager')
         self.session = Session()
 
     def add_user(self, user: User):
@@ -29,7 +32,7 @@ class UserManager():
             if not self.session.query(Permissions).get(message.hash):
                 m = Permissions(hash=message.hash)
                 if message.hash == owner_hash:
-                    print("Got owner hash for the first time.")
+                    self.logger.info("Got owner hash for the first time.")
                     m.add_permission(owner)
                 self.session.add(m)
         u = self.session.query(User).filter_by(session=message.session).first()
@@ -48,3 +51,6 @@ class UserManager():
 
     def by_hash(self, hash):
         return self.session.query(User).get(hash)
+
+    def remove_user(self, user):
+        user.connected = False

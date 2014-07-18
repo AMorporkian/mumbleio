@@ -1,6 +1,6 @@
 import asyncio
 
-from logbook import debug, exception
+from logbook import exception
 
 
 __author__ = 'ankhmorporkian'
@@ -36,7 +36,6 @@ class Restrict:
         self.perm = permission
 
     def __call__(self, f):
-        debug("In __call__")
         if not asyncio.iscoroutine(f):
             f = asyncio.coroutine(f)
 

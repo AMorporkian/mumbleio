@@ -1,10 +1,8 @@
-from logbook import debug, info, warning
+import logbook
 
 from db import Channel, Session
 
-
-__author__ = 'ankhmorporkian'
-
+logger = logbook.Logger("mumbleio.channel_manager")
 
 class ChannelManager:
     def __init__(self):
@@ -15,14 +13,14 @@ class ChannelManager:
                     temporary=None, position=None, description_hash=None):
         c = self.session.query(Channel).get(id)
         if c:
-            debug("Updating channel {} ({})".format(c.name, id))
-            self.update_channel(id, parent, name, links, description, links_add,
-                                links_remove, temporary, position,
-                                description_hash)
+            logger.debug("Updating channel {} ({})".format(c.name, id))
+            self.update_channel(id, parent_id=parent, name=name, description=description,
+                                temporary=temporary, position=position, description_hash=description_hash)
         else:
             c = Channel(id=id,
-                        parent_id=parent, name=name, links="", description=description,
-                        links_add="",links_remove="",
+                        parent_id=parent, name=name, links="",
+                        description=description,
+                        links_add="", links_remove="",
                         temporary=temporary, position=position,
                         description_hash=description_hash)
             self.session.add(c)
@@ -36,28 +34,31 @@ class ChannelManager:
         try:
             c = self.session.query(Channel).get(id)
             self.session.delete(c)
-            info("Deleted channel with ID {0}", id)
+            logger.info("Deleted channel with ID {0}", id)
         except KeyError:
-            warning("Server removed channel with ID {}, "
+            logger.warning("Server removed channel with ID {}, "
                     "but we haven't seen it before!", id)
         except:
             pass
 
-    def get_by_name(self, name):
+    def get_by_name(self, name) -> Channel:
         return self.session.query(Channel).filter_by(name=name).first()
 
-    def get(self, id):
+    def get(self, id) -> Channel:
         if not isinstance(id, int):
             if not id.isdigit():
-                id = self.get_by_name(id).id
+                id = self.get_by_name(id)
             else:
                 id = int(id)
         return self.session.query(Channel).get(id)
 
-    def update_channel(self,
-                       *args):  # id, parent, name, links, description, links_add,
-        #links_remove, temporary, position, description_hash):
-        pass
+    def get_like_name(self, name):
+        return self.session.query(Channel).filter(Channel.name.like('%{}%'.format(name))).first()
+    def update_channel(self, id, **kwargs):
+        c = self.get(id)
+        for key, value in kwargs.items():
+            if value:
+                setattr(c, key, value)
 
     def add_from_message(self, message):
         args = []

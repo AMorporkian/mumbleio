@@ -3,7 +3,6 @@
 from google.protobuf import descriptor
 from google.protobuf import message
 from google.protobuf import reflection
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 
@@ -2284,7 +2283,7 @@ VoiceTarget = reflection.GeneratedProtocolMessageType('VoiceTarget',
                                                           'DESCRIPTOR': _VOICETARGET,
                                                           'Target': reflection.GeneratedProtocolMessageType(
                                                               'Target', (
-                                                              message.Message,),
+                                                                  message.Message,),
                                                               {
                                                                   'DESCRIPTOR': _VOICETARGET_TARGET,
                                                                   # @@protoc_insertion_point(class_scope:MumbleProto.VoiceTarget.Target)

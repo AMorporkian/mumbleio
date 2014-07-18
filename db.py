@@ -1,13 +1,15 @@
-from logbook import debug, info
-from sqlalchemy.orm import relationship, sessionmaker, scoped_session
-import Mumble_pb2
-from permissions import Permission
+from logbook import Logger
+
+from sqlalchemy.orm import relationship, sessionmaker, scoped_session, backref
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, \
     create_engine
+from permissions import Permission
+
 
 __author__ = 'ankhmorporkian'
 Base = declarative_base()
+
 
 class Channel(Base):
     __tablename__ = 'channel'
@@ -15,7 +17,7 @@ class Channel(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     position = Column(Integer)
-    parent_id = Column(Integer, ForeignKey('channel.id'))
+    parent_id = Column(Integer, ForeignKey('channel.id'), default=0)
     links = Column(String)
     description = Column(String)
     links_add = Column(String)
@@ -23,10 +25,24 @@ class Channel(Base):
     temporary = Column(String)
     description_hash = Column(String)
     users = relationship('User')
-    children = relationship('Channel')
+    parent_channel = relationship("Channel", remote_side=[id], uselist=False)
 
     def __repr__(self):
         return "<Channel: {} ({})>".format(self.name, self.id)
+
+    @property
+    def descendant_chain(self):
+        comp = self
+        r_list = [comp]
+        while True:
+            comp = comp.parent_channel
+            if comp:
+                r_list.append(comp)
+                if comp is comp.parent_channel:
+                    break
+            else:
+                break
+        return r_list
 
 
 class User(Base):
@@ -38,7 +54,6 @@ class User(Base):
                  plugin_context=None, plugin_identity=None, comment="",
                  hash=None, comment_hash=None, texture_hash=None,
                  priority_speaker=False, recording=False)
-
 
     session = Column(Integer, primary_key=True)
     hash = Column(String, ForeignKey('permissions.hash'))
@@ -60,8 +75,10 @@ class User(Base):
     texture_hash = Column(String)
     priority_speaker = Column(String)
     recording = Column(Boolean)
+    connected = Column(Boolean)
     channel = relationship("Channel", uselist=False)
     _permissions = relationship("Permissions", uselist=False)
+    logger = Logger('mumbleio.User')
 
     @property
     def permissions(self):
@@ -77,24 +94,24 @@ class User(Base):
         if self._permissions:
             return self._permissions.del_permission(perm)
 
-    def update_from_message(self, message: Mumble_pb2.message):
+    def update_from_message(self, message):
         for k, v in message.ListFields():
             if getattr(self, k.name) != v:
-                #print(k.name)
+                # print(k.name)
                 if k.name == "self_mute":
                     if v:
-                        info("{} is now muted.", self.name)
+                        self.logger.debug("{} is now muted.", self.name)
                     else:
-                        info("{} is no longer muted.", self.name)
+                        self.logger.debug("{} is no longer muted.", self.name)
                 elif k.name == "self_deaf":
                     if v:
-                        info("{} is now deafened.", self.name)
+                        self.logger.debug("{} is now deafened.", self.name)
                     else:
-                        info("{} is no longer deafened.", self.name)
+                        self.logger.debug("{} is no longer deafened.", self.name)
                 elif k.name == "channel_id":
-                    info("{} moved from {} to {}.", self.name, self.channel.name, Session().query(Channel).get(v).name)
-                else:
-                    print(k.name)
+                    self.logger.debug("{} moved from {} to {}.", self.name,
+                                      self.channel.name,
+                                      Session().query(Channel).get(v).name)
                 setattr(self, k.name, v)
 
     @classmethod
@@ -108,7 +125,8 @@ class User(Base):
         return cls(**nd)
 
     def __str__(self):
-        return "<User object for {}, session {}>".format(self.name, self.session)
+        return "<User object for {}, session {}>".format(self.name,
+                                                         self.session)
 
     def __repr__(self):
         return self.__str__()
@@ -129,7 +147,6 @@ class Permissions(Base):
     def add_permission(self, perm):
         if isinstance(perm, Permission):
             for p in perm.subpermissions:
-                print(p)
                 self.add_permission(p)
             perm = perm.name
         if perm in self.permissions:

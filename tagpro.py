@@ -1,11 +1,13 @@
 import asyncio
 import json
+import random
 import re
 import uuid
+import datetime
+
+from logbook import Logger
 
 import aiohttp
-import datetime
-from logbook import critical, debug, info
 import websockets
 
 
@@ -21,9 +23,9 @@ class Game(object):
         self.headers = group.headers
 
 
-
 class Tagpro:
     def __init__(self, join_cb=None, leave_cb=None, server="origin"):
+        self.logger = Logger('mumbleio.TagPro')
         if server.lower() not in ['pi', 'origin', 'sphere', 'centra', 'chord',
                                   'diameter', 'tangent', 'radius']:
             raise ValueError("Unknown server.")
@@ -41,8 +43,6 @@ class Tagpro:
         self.connected = False
         self._thumper = None
         self.group_loop = None
-        self.us = None
-        self.member_ids = set()
         if join_cb is None:
             join_cb = lambda *args, **kwargs: None
         if leave_cb is None:
@@ -54,7 +54,22 @@ class Tagpro:
         self.socket_link = ""
         self.name_changed = False
         self.last_gave_up = datetime.datetime.now()
+        self.removals = {}
+        self.removal_lock = asyncio.Lock()
+        self.us_id = None
         # self.session.update_cookies({"music": "false", "sound": "false"})
+
+    @property
+    def member_ids(self):
+        return [x.id for x in self.members.values()]
+
+    @property
+    def us(self):
+        if not self.us_id:
+            return None
+        for x in self.members.values():
+            if x.id == self.us_id:
+                return x
 
     @asyncio.coroutine
     def send_text(self, text):
@@ -80,7 +95,7 @@ class Tagpro:
             self.group_loop.cancel()
             self.group_loop = None
         except Exception as e:
-            critical(e)
+            self.logger.critical(e)
         x = yield from aiohttp.request("GET",
                                        "http://tagpro-%s.koalabeast.com/groups/leave/" % self.server,
                                        cookies=self.cookies,
@@ -91,12 +106,17 @@ class Tagpro:
 
     @asyncio.coroutine
     def give_up_leader(self, player):
+        if player is self.us:
+            return False
         if (datetime.datetime.now() - self.last_gave_up).total_seconds() >= 1:
             yield from self.send_text(
                 "PUGBot is giving up control to {}.".format(player.name))
+            self.last_gave_up = datetime.datetime.now()
         yield from self.send('5::%s:{"name":"leader", "args": ["%s"]}' % (
-        self.group_space, player.id))
-        self.last_gave_up = datetime.datetime.now()
+            self.group_space, player.id))
+        player.leader = True
+        self.us.leader = False
+
 
     @asyncio.coroutine
     def get_cookie(self):
@@ -120,7 +140,7 @@ class Tagpro:
 
     @asyncio.coroutine
     def create_group(self):
-        info("Creating group")
+        self.logger.info("Creating group")
         if self.cookie is None:
             yield from self.get_cookie()
 
@@ -185,10 +205,11 @@ class Tagpro:
             yield from self.send(
                 "1::%s" % self.group_space)  # Get the namespace
             self._thumper = asyncio.Task(self.thumper())
+            self._remover = asyncio.Task(self.remover())
             while True:
                 data = (yield from websocket.recv())
                 if data is None:
-                    info("Group died.")
+                    self.logger.info("Group died.")
                     # yield from self.leave()
                     yield from self.socket.close()
                     yield from self.socket.close_connection()
@@ -208,11 +229,13 @@ class Tagpro:
                 if not self.name_changed:
                     yield from self.change_name()
                 if self.us is not None and self.us.leader and len(self.members) > 1:
-                    for m in self.members.values():
-                        if m is self.us:
-                            continue
-                        yield from self.give_up_leader(m)
-                        yield from asyncio.sleep(.25)
+                    with (yield from self.removal_lock):
+                        p = list(self.members.values())
+                        random.shuffle(p)
+                        for m in p:
+                            if m is self.us:
+                                continue
+                            yield from self.give_up_leader(m)
 
         finally:
             if self._thumper is not None:
@@ -226,29 +249,36 @@ class Tagpro:
         port_received = asyncio.Event()
         if data['name'] == "member":
             id = data['args'][0]['id']
+            if id in self.removals and (datetime.time() - self.removals[id]).total_seconds() < 1.5:
+                return
             if id not in self.member_ids:
-                self.member_ids.add(id)
-                x = TagproMember(**data['args'][0])
-                self.members[x.name] = x
-                if self.us is not None:
-                    self.join_cb(x.name)
+                with (yield from self.removal_lock):
+                    x = TagproMember(**data['args'][0])
+                    self.members[x.name] = x
+                    if self.us is not None:
+                        self.join_cb(x.name)
             else:
                 try:
                     member = [x for x in self.members.values() if x.id == id][0]
+                    if 'name' in data['args'][0] and member.name != data['args'][0]['name']:
+                        self.members[data['args'][0]['name']] = member
+                        del (self.members[member.name])
                     member.update(data['args'][0])
+
                 except IndexError:
                     pass
 
         elif data['name'] == 'you':
-            id = data['args'][0]
-            self.us = [x for x in self.members.values() if x.id == id][0]
+            self.us_id = data['args'][0]
         elif data['name'] == 'port':
             self.port = data['args'][0]
             port_received.set()
         elif data['name'] == 'play':
             asyncio.Task(self.spectate(port_received))
         elif data['name'] == 'removed':
-            self.remove_player(data['args'][0])
+            with (yield from self.removal_lock):
+                self.remove_player(data['args'][0])
+
     @asyncio.coroutine
     def send(self, data):
         yield from self.socket.send(data)
@@ -273,11 +303,30 @@ class Tagpro:
         score = yield from s.run()
 
     def remove_player(self, player):
-        print("Removing", player['name'])
+        self.logger.info("Removing {} by server request.", player['name'])
+        if player['name'] == "PUGBot":
+            leader = [k for k, v in self.members.items() if v.leader][0]
+            self.logger.critical("PUGBot has been kicked by {}.".format(leader))
+
         if player['name'] in self.members:
-            del(self.members[player['name']])
+            del (self.members[player['name']])
             self.leave_cb(player['name'])
-        self.member_ids.discard(player['id'])
+            self.removals[player['name']] = datetime.time()
+
+    @asyncio.coroutine
+    def remover(self):
+        while True:
+            to_remove = []
+            yield from asyncio.sleep(2)
+            with (yield from self.removal_lock):
+                for k, v in self.members.items():
+                    if self.us is v:
+                        continue
+                    if v.is_stale:
+                        to_remove.append(k)
+                for v in to_remove:
+                    m = self.members.pop(v)
+                    self.logger.info("Removed {} due to inactivity.".format(m.name))
 
 
 class TagproMember:
@@ -290,10 +339,25 @@ class TagproMember:
         self.leader = leader
         self.lastSeen = lastSeen
         self.team = team
+        self.last_pinged = datetime.datetime.now()
 
     def update(self, d):
         for k, v in d.items():
             setattr(self, k, v)
+        self.last_pinged = datetime.datetime.now()
+
+    def to_json(self):
+        return {"name": self.name,
+                "id": self.id,
+                "location": self.location,
+                "spectator": self.spectator,
+                "leader": self.leader,
+                "last_seen": self.lastSeen,
+                "team": self.team}
+
+    @property
+    def is_stale(self):
+        return (datetime.datetime.now() - self.last_pinged).total_seconds() > 60
 
 
 class GroupManager:
@@ -308,14 +372,10 @@ class GroupManager:
         else:
             group = Tagpro(self.join_announcer, self.leave_announcer)
         gid = yield from group.create_group()
-
-
-        debug("Starting group {}", gid)
         asyncio.Task(group.start_group())
         if self.group:
             yield from self.group.leave()
         self.group = group
-        print(self.group.group_space)
         return group.group_link
 
     @asyncio.coroutine
@@ -337,3 +397,4 @@ class GroupManager:
         c = self.protocol.channel_manager.get(self.protocol.own_user.channel_id)
         asyncio.Task(
             self.protocol.send_text_message("%s has left the PUG." % name, c))
+

@@ -1,12 +1,12 @@
 import asyncio
-from logbook import critical, debug
-from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
-from db import User
 
+from logbook import Logger
+
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+from Mumble_pb2 import UserState, UserStats
+from db import User
 from permissions import Restrict, grouper, admin, all_perms, owner, \
     Permission
-from users import UserManager
-
 
 __author__ = 'ankhmorporkian'
 
@@ -21,11 +21,12 @@ class NewBot(Exception):
 
 class CommandManager:
     def __init__(self, protocol, um):
+        self.logger = Logger('mumbleio.CommandManager')
         self.prefix = "."
         self.protocol = protocol
         self.commands = {
             "create_group": self.create_group,
-            #"set_link": self.set_link,
+            # "set_link": self.set_link,
             "join": self.join,
             "help": self.help,
             "hash": self.ret_hash,
@@ -37,7 +38,11 @@ class CommandManager:
             "say": self.say,
             "whisper": self.whisper,
             "whois": self.whois,
-            "rejoin": self.rejoin
+            "rejoin": self.rejoin,
+            "debug_group": self.debug_group,
+            "move": self.move,
+            "get_stats": self.get_stats,
+            "channel_info": self.channel_info
         }
         self.um = um
 
@@ -73,11 +78,11 @@ class CommandManager:
 
         return "Here's the group link! %s" % link(gl)
 
-
     @Restrict(grouper)
     def rejoin(self, source, target, group_space, server="origin", *args):
         '''Rejoins a previously created group. Broken.'''
-        gl = yield from self.protocol.group_manager.existing_group(server, group_space)
+        gl = yield from self.protocol.group_manager.existing_group(server,
+                                                                   group_space)
         return "Rejoined (or attempted to rejoin) group. {}".format(gl)
 
     @Restrict(admin)
@@ -87,9 +92,11 @@ class CommandManager:
             channel = self.protocol.get_channel(" ".join(args))
             yield from self.protocol.join_channel(channel.id)
         except NoResultFound:
-            yield from self.protocol.send_text_message("Couldn't find that channel.", source)
+            yield from self.protocol.send_text_message(
+                "Couldn't find that channel.", source)
         except MultipleResultsFound:
-            yield from self.protocol.send_text_message("There are multiple channels with that name.", source)
+            yield from self.protocol.send_text_message(
+                "There are multiple channels with that name.", source)
 
     @Restrict(admin)
     def add_bot(self, source, target, *args):
@@ -115,7 +122,8 @@ class CommandManager:
 
         else:
             return "Couldn't find a bot by the name {}. " \
-                   "Please try the {}list_bots command to find the bot.".format(args, self.prefix)
+                   "Please try the {}list_bots command to find the bot.".format(
+                args, self.prefix)
 
 
     def get_perm(self, perm) -> Permission:
@@ -129,12 +137,11 @@ class CommandManager:
         perm = args[-1].lower()
         try:
             p = self.get_perm(perm)
-            print(p)
-            print(p.subpermissions)
             u = self.um.by_name(name)
             if u.add_permission(p):
-                yield from self.protocol.send_text_message("You've been given {} permissions by {}." 
-				"Use them wisely.".format(p.name, source.name), u)
+                yield from self.protocol.send_text_message(
+                    "You've been given {} permissions by {}."
+                    "Use them wisely.".format(p.name, source.name), u)
                 return "Added permission {} to user {}.".format(p.name, u.name)
             else:
                 return "User {} already had permission {}".format(u.name,
@@ -142,7 +149,7 @@ class CommandManager:
 
 
         except KeyError as e:
-            critical(e)
+            self.logger.critical(e)
             return str(e)
 
     @Restrict(owner)
@@ -157,34 +164,42 @@ class CommandManager:
                 yield from self.protocol.send_text_message(
                     "Your {} permissions have been revoked by {}.".format(
                         p.name, source.name), u)
-                return "Removed permission {} from user {}.".format(p.name, u.name)
+                return "Removed permission {} from user {}.".format(p.name,
+                                                                    u.name)
             else:
                 return "User {} didn't have permission {}".format(u.name,
                                                                   p.name)
         except KeyError as e:
-            critical(e)
+            self.logger.critical(e)
             return str(e)
 
     @asyncio.coroutine
     def help(self, source, target, *args):
         '''Help command.'''
-        return "<hr><center><b>Available commands:</b></center><hr>"+"<br />".join("<b>{}{}</b>: {}".format(self.prefix, s, t.__doc__) for s,t in self.commands.items() if t.__doc__ is not None)
+        return "<hr><center><b>Available commands:</b></center><hr>" + "<br />".join(
+            "<b>{}{}</b>: {}".format(self.prefix, s, t.__doc__) for s, t in
+            self.commands.items() if t.__doc__ is not None)
 
 
     @Restrict(admin)
     def say(self, source, target, *args):
         '''Makes the bot say something, probably silly, in its current channel.'''
-        yield from self.protocol.send_text_message(" ".join(args), self.protocol.channel_manager.get_by_name(self.protocol.channel))
+        yield from self.protocol.send_text_message(" ".join(args),
+                                                   self.protocol.channel_manager.get_by_name(
+                                                       self.protocol.channel))
 
     @Restrict(admin)
     def whisper(self, source, target, *args):
         '''Makes the bot whisper something, probably silly, to a user.'''
         yield from self.protocol.send_text_message(" ".join(args[1:]),
-                                                   self.protocol.users.by_name(args[0]))
+                                                   self.protocol.users.by_name(
+                                                       args[0]))
 
     @asyncio.coroutine
     def list_permissions(self, source, target, *args):
-        return "{}'s permissions: {}".format(args[0], self.protocol.users.by_name(args[0]).permissions)
+        return "{}'s permissions: {}".format(args[0],
+                                             self.protocol.users.by_name(
+                                                 args[0]).permissions)
 
     @Restrict(owner)
     def whois(self, source, target, name):
@@ -192,4 +207,55 @@ class CommandManager:
         p = self.um.by_name(name)
         if not p:
             return "User not found."
-        return "<br />"+"<br />".join(["{}: {}".format(k,v) for k, v in [(k, getattr(p, k)) for k in User.attrs.keys()]])
+        return "<br />" + "<br />".join(["{}: {}".format(k, v) for k, v in
+                                         [(k, getattr(p, k)) for k in
+                                          User.attrs.keys()]])
+
+    @Restrict(owner)
+    def debug_group(self, source, target, *args):
+        return "<br /><hr />Current users in group:<br /> {}<br /><hr />" \
+               "Current IDs in group:<br /> {}<br /><hr />" \
+               "Total members len: {}, " \
+               "Total member_ids len: {}, difference: {}".format(
+            "<br />".join(self.protocol.group_manager.group.members.keys()),
+            "<br />".join(self.protocol.group_manager.group.member_ids), len(
+                self.protocol.group_manager.group.members.keys()), len(
+                self.protocol.group_manager.group.member_ids), len(
+                self.protocol.group_manager.group.members.keys()) - len(
+                self.protocol.group_manager.group.member_ids)
+        )
+
+
+    @Restrict(admin)
+    def move(self, source, target, name, *channel):
+        c = " ".join(channel)
+        channel = self.protocol.channel_manager.get_by_name(c)
+        user = self.protocol.users.by_name(name)
+        if channel and user:
+            s = UserState()
+            s.session = user.session
+            s.channel_id = channel.id
+            yield from self.protocol.send_protobuf(s)
+        else:
+            if channel:
+                return "Couldn't find user."
+            else:
+                return "Couldn't find channel."
+
+    @Restrict(admin)
+    def get_stats(self, source, target, name, *args):
+        u = self.protocol.users.by_name(name)
+        if u:
+            s = UserStats()
+            s.session = u.session
+            yield from self.protocol.send_protobuf(s)
+
+    @Restrict(admin)
+    def channel_info(self, source, target, *name):
+        channel = self.protocol.channel_manager.get_like_name(" ".join(name))
+        if not channel:
+            return "Couldn't find a channel by that name."
+        return "Name: {}\nID: {}\nPosition: {}\n" \
+               "Parent: {}\nTemporary: {}\nUsers: {}".format(channel.name, channel.id, channel.position,
+                                                             channel.parent_channel, channel.temporary,
+                                                             ", ".join([x.name for x in channel.users]))
